@@ -32,20 +32,42 @@
       box-shadow: 0 0 8px rgba(0,0,0,0.05);
       page-break-inside: avoid;
     }
-    .checkbox-group label {
-      display: block;
-      margin-bottom: 5px;
-    }
-    .freitext-container {
-      margin-top: 10px;
-    }
-    .freitext-container .freitext-wrapper {
+    .section-header {
       display: flex;
-      gap: 5px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .section-header h2 {
+      margin: 0;
+    }
+    .section-actions button {
+      background: transparent;
+      color: #2c3e50;
+      padding: 4px 6px;
+      margin: 0 0 0 4px;
+      font-size: 1em;
+    }
+    .section-actions button:hover {
+      background: #eee;
+    }
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       margin-bottom: 5px;
     }
-    .freitext-container input[type="text"] {
+    .checkbox-group label span {
       flex: 1;
+    }
+    .item-delete {
+      background: transparent;
+      color: #c0392b;
+      padding: 2px 6px;
+      margin: 0;
+      font-size: 0.9em;
+    }
+    .item-delete:hover {
+      background: #fdecea;
     }
     .buttons {
       margin-top: 10px;
@@ -63,10 +85,14 @@
     button:hover {
       background: #1a252f;
     }
-    @media (max-width: 600px) {
-      input[type="text"] {
-        width: 100%;
-      }
+    #add-section-btn {
+      width: 100%;
+      background: #ecf0f1;
+      color: #2c3e50;
+      border: 1px dashed #b0bec5;
+    }
+    #add-section-btn:hover {
+      background: #dfe6e9;
     }
 
     /* Start-/Koffer-Auswahl */
@@ -124,6 +150,14 @@
     #back-btn {
       background: #7f8c8d;
     }
+    #edit-toggle-btn.active {
+      background: #16a085;
+    }
+    @media (max-width: 600px) {
+      input[type="text"] {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -139,124 +173,63 @@
   <div id="checklist-screen">
     <div id="checklist-header">
       <h1 id="checklist-title">🧳 Checkliste</h1>
-      <button id="back-btn" onclick="goToStart()">← Zurück</button>
+      <div>
+        <button id="edit-toggle-btn" onclick="toggleEditMode()">✏️ Bearbeiten</button>
+        <button id="back-btn" onclick="goToStart()">← Zurück</button>
+      </div>
     </div>
 
-    <div id="checklist">
+    <div id="checklist"></div>
 
-      <!-- KOSMETIK -->
-      <div class="section" data-section="Kosmetik">
-        <h2>Kosmetik</h2>
-        <div class="checkbox-group">
-          <label><input type="checkbox"> Zahnbürste</label>
-          <label><input type="checkbox"> Zahnpasta</label>
-          <label><input type="checkbox"> Parfüm</label>
-          <label><input type="checkbox"> Haarshampoo</label>
-          <label><input type="checkbox"> Deo</label>
-          <label><input type="checkbox"> Haarschaum</label>
-          <label><input type="checkbox"> Duschgel</label>
-          <label><input type="checkbox"> Fön</label>
-          <label><input type="checkbox"> Haarspray</label>
-          <label><input type="checkbox"> Taschentücher</label>
-          <label><input type="checkbox"> Ohrenstäbchen</label>
-          <label><input type="checkbox"> Bürste</label>
-          <label><input type="checkbox"> Sonnenmilch</label>
-          <label><input type="checkbox"> Gesichtscreme</label>
-          <label><input type="checkbox"> After-Sun</label>
-          <label><input type="checkbox"> Bodylotion</label>
-          <label><input type="checkbox"> Rasierer</label>
-          <label><input type="checkbox"> Aftershave Lotion</label>
-        </div>
-        <div class="freitext-container" id="kosmetik-freitext"></div>
-        <div class="buttons">
-          <button onclick="addField('kosmetik-freitext')">+ Freitext</button>
-        </div>
-      </div>
+    <button id="add-section-btn" onclick="addSection()" style="display:none;">➕ Neue Kategorie</button>
 
-      <!-- REISEAPOTHEKE -->
-      <div class="section" data-section="Reiseapotheke">
-        <h2>Reiseapotheke</h2>
-        <div class="checkbox-group">
-          <label><input type="checkbox"> Desinfektionsmittel</label>
-          <label><input type="checkbox"> Schere</label>
-          <label><input type="checkbox"> Magnesium</label>
-          <label><input type="checkbox"> Durchfalltabletten</label>
-          <label><input type="checkbox"> Wundsalbe</label>
-          <label><input type="checkbox"> Diclofenac</label>
-          <label><input type="checkbox"> Pinzette</label>
-          <label><input type="checkbox"> Kortisonsalbe</label>
-          <label><input type="checkbox"> Kopfschmerztabletten</label>
-          <label><input type="checkbox"> Pflaster</label>
-          <label><input type="checkbox"> Bullrich Salz</label>
-          <label><input type="checkbox"> Pantoprazol</label>
-        </div>
-        <div class="freitext-container" id="apotheke-freitext"></div>
-        <div class="buttons">
-          <button onclick="addField('apotheke-freitext')">+ Freitext</button>
-        </div>
-      </div>
-
-      <!-- KLEIDUNG -->
-      <div class="section" data-section="Kleidung">
-        <h2>Kleidung</h2>
-        <div class="checkbox-group">
-          <label><input type="checkbox"> Slips</label>
-          <label><input type="checkbox"> Badehose</label>
-          <label><input type="checkbox"> Einlagen</label>
-          <label><input type="checkbox"> Socken</label>
-          <label><input type="checkbox"> Cappy</label>
-          <label><input type="checkbox"> Schlafsachen</label>
-          <label><input type="checkbox"> Sandalen</label>
-          <label><input type="checkbox"> 1 lange Hose</label>
-          <label><input type="checkbox"> T-Shirts</label>
-          <label><input type="checkbox"> Hoodie</label>
-          <label><input type="checkbox"> Flip-Flops</label>
-          <label><input type="checkbox"> Shorts</label>
-          <label><input type="checkbox"> Schuhe</label>
-        </div>
-        <div class="freitext-container" id="kleidung-freitext"></div>
-        <div class="buttons">
-          <button onclick="addField('kleidung-freitext')">+ Freitext</button>
-        </div>
-      </div>
-
-      <!-- SONSTIGES -->
-      <div class="section" data-section="Sonstiges">
-        <h2>Sonstiges</h2>
-        <div class="checkbox-group">
-          <label><input type="checkbox"> Reisepass / Personalausweis</label>
-          <label><input type="checkbox"> Führerschein</label>
-          <label><input type="checkbox"> Geld</label>
-          <label><input type="checkbox"> Reiseunterlagen</label>
-          <label><input type="checkbox"> Brille</label>
-          <label><input type="checkbox"> Handy</label>
-          <label><input type="checkbox"> Reiseführer</label>
-          <label><input type="checkbox"> Sonnenbrille</label>
-          <label><input type="checkbox"> Kamera</label>
-          <label><input type="checkbox"> Ladegeräte (Handy, Tablet)</label>
-          <label><input type="checkbox"> Tablet</label>
-          <label><input type="checkbox"> Kindle</label>
-          <label><input type="checkbox"> Handtuch</label>
-          <label><input type="checkbox"> Strandtuch</label>
-          <label><input type="checkbox"> Strandtasche</label>
-          <label><input type="checkbox"> Rucksack</label>
-        </div>
-        <div class="freitext-container" id="sonstiges-freitext"></div>
-        <div class="buttons">
-          <button onclick="addField('sonstiges-freitext')">+ Freitext</button>
-        </div>
-      </div>
-
+    <div class="buttons">
+      <button onclick="generatePDF()">📤 Als PDF speichern</button>
     </div>
-
-    <button onclick="generatePDF()">📤 Als PDF speichern</button>
-    <button onclick="saveStateManually()">💾 Speichern</button>
   </div>
 
   <script>
     const PROFILES_KEY = "koffer_profiles";
     let currentProfileId = null;
+    let editMode = false;
 
+    // ---------- Standard-Vorlage ----------
+    function defaultTemplate() {
+      return {
+        sections: [
+          {
+            id: "s_kosmetik",
+            title: "Kosmetik",
+            items: ["Zahnbürste","Zahnpasta","Parfüm","Haarshampoo","Deo","Haarschaum","Duschgel","Fön","Haarspray","Taschentücher","Ohrenstäbchen","Bürste","Sonnenmilch","Gesichtscreme","After-Sun","Bodylotion","Rasierer","Aftershave Lotion"]
+              .map((name, i) => ({ id: "s_kosmetik_i" + i, name, checked: false }))
+          },
+          {
+            id: "s_apotheke",
+            title: "Reiseapotheke",
+            items: ["Desinfektionsmittel","Schere","Magnesium","Durchfalltabletten","Wundsalbe","Diclofenac","Pinzette","Kortisonsalbe","Kopfschmerztabletten","Pflaster","Bullrich Salz","Pantoprazol"]
+              .map((name, i) => ({ id: "s_apotheke_i" + i, name, checked: false }))
+          },
+          {
+            id: "s_kleidung",
+            title: "Kleidung",
+            items: ["Slips","Badehose","Einlagen","Socken","Cappy","Schlafsachen","Sandalen","1 lange Hose","T-Shirts","Hoodie","Flip-Flops","Shorts","Schuhe"]
+              .map((name, i) => ({ id: "s_kleidung_i" + i, name, checked: false }))
+          },
+          {
+            id: "s_sonstiges",
+            title: "Sonstiges",
+            items: ["Reisepass / Personalausweis","Führerschein","Geld","Reiseunterlagen","Brille","Handy","Reiseführer","Sonnenbrille","Kamera","Ladegeräte (Handy, Tablet)","Tablet","Kindle","Handtuch","Strandtuch","Strandtasche","Rucksack"]
+              .map((name, i) => ({ id: "s_sonstiges_i" + i, name, checked: false }))
+          }
+        ]
+      };
+    }
+
+    function emptyTemplate() {
+      return { sections: [] };
+    }
+
+    // ---------- Profile (Koffer) ----------
     function defaultProfiles() {
       return [
         { id: "p1", name: "Koffer 1" },
@@ -270,6 +243,12 @@
       if (!raw) {
         const initial = defaultProfiles();
         localStorage.setItem(PROFILES_KEY, JSON.stringify(initial));
+        // Für die drei Standard-Koffer direkt die Vorlage anlegen
+        initial.forEach(p => {
+          if (!localStorage.getItem("checklist_data_" + p.id)) {
+            saveChecklistData(p.id, defaultTemplate());
+          }
+        });
         return initial;
       }
       return JSON.parse(raw);
@@ -319,6 +298,13 @@
       const id = "p" + Date.now();
       profiles.push({ id, name });
       saveProfiles(profiles);
+
+      const useTemplate = confirm(
+        "Mit Standard-Vorlage starten (Kosmetik, Reiseapotheke, Kleidung, Sonstiges)?\n\n" +
+        "OK = Vorlage übernehmen\nAbbrechen = komplett leer, alles selbst anlegen"
+      );
+      saveChecklistData(id, useTemplate ? defaultTemplate() : emptyTemplate());
+
       renderProfiles();
     }
 
@@ -340,59 +326,209 @@
       const profiles = getProfiles();
       const profile = profiles.find(p => p.id === id);
       if (!profile) return;
-      if (!confirm(`"${profile.name}" wirklich löschen? Alle Häkchen dafür gehen verloren.`)) return;
+      if (!confirm(`"${profile.name}" wirklich löschen? Die komplette Liste dafür geht verloren.`)) return;
       saveProfiles(profiles.filter(p => p.id !== id));
-      localStorage.removeItem("checklist_" + id);
+      localStorage.removeItem("checklist_data_" + id);
       renderProfiles();
     }
 
+    // ---------- Checklisten-Daten pro Koffer ----------
+    function getChecklistData(profileId) {
+      const raw = localStorage.getItem("checklist_data_" + profileId);
+      if (!raw) return emptyTemplate();
+      return JSON.parse(raw);
+    }
+
+    function saveChecklistData(profileId, data) {
+      localStorage.setItem("checklist_data_" + profileId, JSON.stringify(data));
+    }
+
+    function uid(prefix) {
+      return prefix + "_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+    }
+
+    // ---------- Navigation ----------
     function openProfile(id) {
       const profiles = getProfiles();
       const profile = profiles.find(p => p.id === id);
       if (!profile) return;
       currentProfileId = id;
-      resetForm();
-      loadState();
+      editMode = false;
+      updateEditToggleBtn();
       document.getElementById("checklist-title").textContent = "🧳 " + profile.name;
+      renderChecklist();
       document.getElementById("start-screen").style.display = "none";
       document.getElementById("checklist-screen").style.display = "block";
     }
 
     function goToStart() {
-      saveState();
       currentProfileId = null;
       document.getElementById("checklist-screen").style.display = "none";
       document.getElementById("start-screen").style.display = "block";
       renderProfiles();
     }
 
-    function resetForm() {
-      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-      document.querySelectorAll('.freitext-container').forEach(container => {
-        container.innerHTML = "";
+    function toggleEditMode() {
+      editMode = !editMode;
+      updateEditToggleBtn();
+      renderChecklist();
+    }
+
+    function updateEditToggleBtn() {
+      const btn = document.getElementById("edit-toggle-btn");
+      btn.textContent = editMode ? "✅ Fertig" : "✏️ Bearbeiten";
+      btn.classList.toggle("active", editMode);
+      document.getElementById("add-section-btn").style.display = editMode ? "block" : "none";
+    }
+
+    // ---------- Rendern der Checkliste ----------
+    function renderChecklist() {
+      if (!currentProfileId) return;
+      const data = getChecklistData(currentProfileId);
+      const container = document.getElementById("checklist");
+      container.innerHTML = "";
+
+      data.sections.forEach(section => {
+        const sectionEl = document.createElement("div");
+        sectionEl.className = "section";
+
+        const header = document.createElement("div");
+        header.className = "section-header";
+
+        const h2 = document.createElement("h2");
+        h2.textContent = section.title;
+        header.appendChild(h2);
+
+        if (editMode) {
+          const actions = document.createElement("div");
+          actions.className = "section-actions";
+          const renameBtn = document.createElement("button");
+          renameBtn.textContent = "✏️";
+          renameBtn.onclick = () => renameSection(section.id);
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "🗑️";
+          delBtn.onclick = () => removeSection(section.id);
+          actions.appendChild(renameBtn);
+          actions.appendChild(delBtn);
+          header.appendChild(actions);
+        }
+
+        sectionEl.appendChild(header);
+
+        const group = document.createElement("div");
+        group.className = "checkbox-group";
+
+        section.items.forEach(item => {
+          const label = document.createElement("label");
+
+          const cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = item.checked;
+          cb.onchange = () => toggleItem(section.id, item.id, cb.checked);
+
+          const span = document.createElement("span");
+          span.textContent = item.name;
+
+          label.appendChild(cb);
+          label.appendChild(span);
+
+          if (editMode) {
+            const delBtn = document.createElement("button");
+            delBtn.className = "item-delete";
+            delBtn.textContent = "✖";
+            delBtn.onclick = () => removeItem(section.id, item.id);
+            label.appendChild(delBtn);
+          }
+
+          group.appendChild(label);
+        });
+
+        sectionEl.appendChild(group);
+
+        if (editMode) {
+          const btnRow = document.createElement("div");
+          btnRow.className = "buttons";
+          const addItemBtn = document.createElement("button");
+          addItemBtn.textContent = "+ Punkt";
+          addItemBtn.onclick = () => addItem(section.id);
+          btnRow.appendChild(addItemBtn);
+          sectionEl.appendChild(btnRow);
+        }
+
+        container.appendChild(sectionEl);
       });
+
+      if (data.sections.length === 0) {
+        const hint = document.createElement("p");
+        hint.textContent = editMode
+          ? "Noch keine Kategorien – leg unten eine neue an."
+          : "Diese Liste ist noch leer. Tippe oben auf ✏️ Bearbeiten, um Kategorien und Punkte anzulegen.";
+        container.appendChild(hint);
+      }
     }
 
-    function addField(containerId) {
-      const container = document.getElementById(containerId);
-      const wrapper = document.createElement("div");
-      wrapper.className = "freitext-wrapper";
-      const input = document.createElement("input");
-      input.type = "text";
-      input.placeholder = "Freitext...";
-      input.onchange = saveState;
-      const removeBtn = document.createElement("button");
-      removeBtn.textContent = "✖";
-      removeBtn.onclick = () => {
-        container.removeChild(wrapper);
-        saveState();
-      };
-      wrapper.appendChild(input);
-      wrapper.appendChild(removeBtn);
-      container.appendChild(wrapper);
-      saveState();
+    // ---------- Bearbeiten: Kategorien & Punkte ----------
+    function addSection() {
+      const title = prompt("Name der neuen Kategorie:", "Neue Kategorie");
+      if (!title) return;
+      const data = getChecklistData(currentProfileId);
+      data.sections.push({ id: uid("sec"), title, items: [] });
+      saveChecklistData(currentProfileId, data);
+      renderChecklist();
     }
 
+    function renameSection(sectionId) {
+      const data = getChecklistData(currentProfileId);
+      const section = data.sections.find(s => s.id === sectionId);
+      if (!section) return;
+      const newTitle = prompt("Neuer Kategorie-Name:", section.title);
+      if (!newTitle) return;
+      section.title = newTitle;
+      saveChecklistData(currentProfileId, data);
+      renderChecklist();
+    }
+
+    function removeSection(sectionId) {
+      const data = getChecklistData(currentProfileId);
+      const section = data.sections.find(s => s.id === sectionId);
+      if (!section) return;
+      if (!confirm(`Kategorie "${section.title}" mit allen Punkten wirklich löschen?`)) return;
+      data.sections = data.sections.filter(s => s.id !== sectionId);
+      saveChecklistData(currentProfileId, data);
+      renderChecklist();
+    }
+
+    function addItem(sectionId) {
+      const name = prompt("Neuer Punkt:", "");
+      if (!name) return;
+      const data = getChecklistData(currentProfileId);
+      const section = data.sections.find(s => s.id === sectionId);
+      if (!section) return;
+      section.items.push({ id: uid("item"), name, checked: false });
+      saveChecklistData(currentProfileId, data);
+      renderChecklist();
+    }
+
+    function removeItem(sectionId, itemId) {
+      const data = getChecklistData(currentProfileId);
+      const section = data.sections.find(s => s.id === sectionId);
+      if (!section) return;
+      section.items = section.items.filter(i => i.id !== itemId);
+      saveChecklistData(currentProfileId, data);
+      renderChecklist();
+    }
+
+    function toggleItem(sectionId, itemId, checked) {
+      const data = getChecklistData(currentProfileId);
+      const section = data.sections.find(s => s.id === sectionId);
+      if (!section) return;
+      const item = section.items.find(i => i.id === itemId);
+      if (!item) return;
+      item.checked = checked;
+      saveChecklistData(currentProfileId, data);
+    }
+
+    // ---------- PDF-Export ----------
     function generatePDF() {
       const element = document.getElementById("checklist");
       const profiles = getProfiles();
@@ -406,49 +542,6 @@
         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       }).from(element).save();
-    }
-
-    function saveStateManually() {
-      saveState();
-      alert("Daten gespeichert.");
-    }
-
-    function saveState() {
-      if (!currentProfileId) return;
-      const state = {
-        checkboxes: [...document.querySelectorAll('input[type="checkbox"]')].map(cb => cb.checked),
-        freitexte: [...document.querySelectorAll('.freitext-container')].map(container =>
-          [...container.querySelectorAll('input[type="text"]')].map(input => input.value)
-        )
-      };
-      localStorage.setItem("checklist_" + currentProfileId, JSON.stringify(state));
-    }
-
-    function loadState() {
-      if (!currentProfileId) return;
-      const state = JSON.parse(localStorage.getItem("checklist_" + currentProfileId));
-      if (!state) return;
-      document.querySelectorAll('input[type="checkbox"]').forEach((cb, i) => cb.checked = state.checkboxes[i]);
-      const containers = document.querySelectorAll('.freitext-container');
-      state.freitexte.forEach((texts, i) => {
-        texts.forEach(text => {
-          const wrapper = document.createElement("div");
-          wrapper.className = "freitext-wrapper";
-          const input = document.createElement("input");
-          input.type = "text";
-          input.value = text;
-          input.onchange = saveState;
-          const removeBtn = document.createElement("button");
-          removeBtn.textContent = "✖";
-          removeBtn.onclick = () => {
-            containers[i].removeChild(wrapper);
-            saveState();
-          };
-          wrapper.appendChild(input);
-          wrapper.appendChild(removeBtn);
-          containers[i].appendChild(wrapper);
-        });
-      });
     }
 
     window.onload = renderProfiles;
