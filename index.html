@@ -153,6 +153,24 @@
     #edit-toggle-btn.active {
       background: #16a085;
     }
+    #zoom-control {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 4px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.9);
+      padding: 4px;
+      border-radius: 6px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.15);
+    }
+    #zoom-control button {
+      margin: 0;
+      padding: 6px 12px;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
     @media (max-width: 600px) {
       input[type="text"] {
         width: 100%;
@@ -161,6 +179,12 @@
   </style>
 </head>
 <body>
+
+  <!-- Zoom-Steuerung: vergrößert/verkleinert die gesamte Ansicht -->
+  <div id="zoom-control">
+    <button onclick="changeZoom(-0.1)">−</button>
+    <button onclick="changeZoom(0.1)">+</button>
+  </div>
 
   <!-- KOFFER-AUSWAHL -->
   <div id="start-screen">
@@ -190,8 +214,26 @@
 
   <script>
     const PROFILES_KEY = "koffer_profiles";
+    const ZOOM_KEY = "ui_zoom";
     let currentProfileId = null;
     let editMode = false;
+
+    // ---------- Zoom (Textgröße der ganzen App) ----------
+    function getZoom() {
+      const raw = localStorage.getItem(ZOOM_KEY);
+      return raw ? parseFloat(raw) : 1;
+    }
+
+    function applyZoom(zoom) {
+      document.body.style.zoom = zoom;
+    }
+
+    function changeZoom(delta) {
+      let zoom = getZoom() + delta;
+      zoom = Math.min(1.6, Math.max(0.8, Math.round(zoom * 10) / 10));
+      localStorage.setItem(ZOOM_KEY, zoom);
+      applyZoom(zoom);
+    }
 
     // ---------- Standard-Vorlage: feste Kategorien, aber ohne vorbefüllte Punkte ----------
     function defaultTemplate() {
@@ -553,7 +595,10 @@
       }).from(element).save();
     }
 
-    window.onload = renderProfiles;
+    window.onload = function() {
+      applyZoom(getZoom());
+      renderProfiles();
+    };
 
     // Service Worker registrieren (macht die App offline-fähig & installierbar)
     if ("serviceWorker" in navigator) {

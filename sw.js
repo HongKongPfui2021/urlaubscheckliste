@@ -1,4 +1,4 @@
-const CACHE_NAME = "urlaubscheckliste-v6";
+const CACHE_NAME = "urlaubscheckliste-v7";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
