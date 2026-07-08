@@ -193,40 +193,16 @@
     let currentProfileId = null;
     let editMode = false;
 
-    // ---------- Standard-Vorlage ----------
+    // ---------- Standard-Vorlage: feste Kategorien, aber ohne vorbefüllte Punkte ----------
     function defaultTemplate() {
       return {
         sections: [
-          {
-            id: "s_kosmetik",
-            title: "Kosmetik",
-            items: ["Zahnbürste","Zahnpasta","Parfüm","Haarshampoo","Deo","Haarschaum","Duschgel","Fön","Haarspray","Taschentücher","Ohrenstäbchen","Bürste","Sonnenmilch","Gesichtscreme","After-Sun","Bodylotion","Rasierer","Aftershave Lotion"]
-              .map((name, i) => ({ id: "s_kosmetik_i" + i, name, checked: false }))
-          },
-          {
-            id: "s_apotheke",
-            title: "Reiseapotheke",
-            items: ["Desinfektionsmittel","Schere","Magnesium","Durchfalltabletten","Wundsalbe","Diclofenac","Pinzette","Kortisonsalbe","Kopfschmerztabletten","Pflaster","Bullrich Salz","Pantoprazol"]
-              .map((name, i) => ({ id: "s_apotheke_i" + i, name, checked: false }))
-          },
-          {
-            id: "s_kleidung",
-            title: "Kleidung",
-            items: ["Slips","Badehose","Einlagen","Socken","Cappy","Schlafsachen","Sandalen","1 lange Hose","T-Shirts","Hoodie","Flip-Flops","Shorts","Schuhe"]
-              .map((name, i) => ({ id: "s_kleidung_i" + i, name, checked: false }))
-          },
-          {
-            id: "s_sonstiges",
-            title: "Sonstiges",
-            items: ["Reisepass / Personalausweis","Führerschein","Geld","Reiseunterlagen","Brille","Handy","Reiseführer","Sonnenbrille","Kamera","Ladegeräte (Handy, Tablet)","Tablet","Kindle","Handtuch","Strandtuch","Strandtasche","Rucksack"]
-              .map((name, i) => ({ id: "s_sonstiges_i" + i, name, checked: false }))
-          }
+          { id: uid("sec"), title: "Kosmetik", items: [] },
+          { id: uid("sec"), title: "Reiseapotheke", items: [] },
+          { id: uid("sec"), title: "Kleidung", items: [] },
+          { id: uid("sec"), title: "Sonstiges", items: [] }
         ]
       };
-    }
-
-    function emptyTemplate() {
-      return { sections: [] };
     }
 
     // ---------- Profile (Koffer) ----------
@@ -298,13 +274,7 @@
       const id = "p" + Date.now();
       profiles.push({ id, name });
       saveProfiles(profiles);
-
-      const useTemplate = confirm(
-        "Mit Standard-Vorlage starten (Kosmetik, Reiseapotheke, Kleidung, Sonstiges)?\n\n" +
-        "OK = Vorlage übernehmen\nAbbrechen = komplett leer, alles selbst anlegen"
-      );
-      saveChecklistData(id, useTemplate ? defaultTemplate() : emptyTemplate());
-
+      saveChecklistData(id, defaultTemplate());
       renderProfiles();
     }
 
@@ -335,7 +305,7 @@
     // ---------- Checklisten-Daten pro Koffer ----------
     function getChecklistData(profileId) {
       const raw = localStorage.getItem("checklist_data_" + profileId);
-      if (!raw) return emptyTemplate();
+      if (!raw) return { sections: [] };
       return JSON.parse(raw);
     }
 
