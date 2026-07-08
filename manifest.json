@@ -1,7 +1,7 @@
 {
-  "name": "Urlaubscheckliste",
-  "short_name": "Urlaub",
-  "description": "Checkliste für den Urlaub – Kosmetik, Reiseapotheke, Kleidung & mehr",
+  "name": "Kofferchecklisten",
+  "short_name": "Koffer",
+  "description": "Packlisten für mehrere Koffer – Kosmetik, Reiseapotheke, Kleidung & mehr",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

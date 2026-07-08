@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Urlaubscheckliste</title>
+  <title>Kofferchecklisten</title>
 
   <!-- PWA: Manifest & Icons -->
   <link rel="manifest" href="manifest.json">
@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" href="icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Urlaub">
+  <meta name="apple-mobile-web-app-title" content="Koffer">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
@@ -68,121 +68,311 @@
         width: 100%;
       }
     }
+
+    /* Start-/Koffer-Auswahl */
+    #start-screen {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .profile-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      padding: 14px 16px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+      margin-bottom: 10px;
+    }
+    .profile-card .profile-name {
+      flex: 1;
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #2c3e50;
+      cursor: pointer;
+      padding: 6px 0;
+    }
+    .profile-card .profile-actions button {
+      background: transparent;
+      color: #2c3e50;
+      padding: 4px 8px;
+      margin: 0 0 0 4px;
+      font-size: 1.1em;
+    }
+    .profile-card .profile-actions button:hover {
+      background: #eee;
+    }
+    #add-profile-btn {
+      width: 100%;
+      margin-top: 6px;
+      background: #ecf0f1;
+      color: #2c3e50;
+      border: 1px dashed #b0bec5;
+    }
+    #add-profile-btn:hover {
+      background: #dfe6e9;
+    }
+    #checklist-screen {
+      display: none;
+    }
+    #checklist-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    #back-btn {
+      background: #7f8c8d;
+    }
   </style>
 </head>
 <body>
-  <h1>🧳 Urlaubscheckliste</h1>
-  <div id="checklist">
 
-    <!-- KOSMETIK -->
-    <div class="section" data-section="Kosmetik">
-      <h2>Kosmetik</h2>
-      <div class="checkbox-group">
-        <label><input type="checkbox"> Zahnbürste</label>
-        <label><input type="checkbox"> Zahnpasta</label>
-        <label><input type="checkbox"> Parfüm</label>
-        <label><input type="checkbox"> Haarshampoo</label>
-        <label><input type="checkbox"> Deo</label>
-        <label><input type="checkbox"> Haarschaum</label>
-        <label><input type="checkbox"> Duschgel</label>
-        <label><input type="checkbox"> Fön</label>
-        <label><input type="checkbox"> Haarspray</label>
-        <label><input type="checkbox"> Taschentücher</label>
-        <label><input type="checkbox"> Ohrenstäbchen</label>
-        <label><input type="checkbox"> Bürste</label>
-        <label><input type="checkbox"> Sonnenmilch</label>
-        <label><input type="checkbox"> Gesichtscreme</label>
-        <label><input type="checkbox"> After-Sun</label>
-        <label><input type="checkbox"> Bodylotion</label>
-        <label><input type="checkbox"> Rasierer</label>
-        <label><input type="checkbox"> Aftershave Lotion</label>
-      </div>
-      <div class="freitext-container" id="kosmetik-freitext"></div>
-      <div class="buttons">
-        <button onclick="addField('kosmetik-freitext')">+ Freitext</button>
-      </div>
-    </div>
-
-    <!-- REISEAPOTHEKE -->
-    <div class="section" data-section="Reiseapotheke">
-      <h2>Reiseapotheke</h2>
-      <div class="checkbox-group">
-        <label><input type="checkbox"> Desinfektionsmittel</label>
-        <label><input type="checkbox"> Schere</label>
-        <label><input type="checkbox"> Magnesium</label>
-        <label><input type="checkbox"> Durchfalltabletten</label>
-        <label><input type="checkbox"> Wundsalbe</label>
-        <label><input type="checkbox"> Diclofenac</label>
-        <label><input type="checkbox"> Pinzette</label>
-        <label><input type="checkbox"> Kortisonsalbe</label>
-        <label><input type="checkbox"> Kopfschmerztabletten</label>
-        <label><input type="checkbox"> Pflaster</label>
-        <label><input type="checkbox"> Bullrich Salz</label>
-        <label><input type="checkbox"> Pantoprazol</label>
-      </div>
-      <div class="freitext-container" id="apotheke-freitext"></div>
-      <div class="buttons">
-        <button onclick="addField('apotheke-freitext')">+ Freitext</button>
-      </div>
-    </div>
-
-    <!-- KLEIDUNG -->
-    <div class="section" data-section="Kleidung">
-      <h2>Kleidung</h2>
-      <div class="checkbox-group">
-        <label><input type="checkbox"> Slips</label>
-        <label><input type="checkbox"> Badehose</label>
-        <label><input type="checkbox"> Einlagen</label>
-        <label><input type="checkbox"> Socken</label>
-        <label><input type="checkbox"> Cappy</label>
-        <label><input type="checkbox"> Schlafsachen</label>
-        <label><input type="checkbox"> Sandalen</label>
-        <label><input type="checkbox"> 1 lange Hose</label>
-        <label><input type="checkbox"> T-Shirts</label>
-        <label><input type="checkbox"> Hoodie</label>
-        <label><input type="checkbox"> Flip-Flops</label>
-        <label><input type="checkbox"> Shorts</label>
-        <label><input type="checkbox"> Schuhe</label>
-      </div>
-      <div class="freitext-container" id="kleidung-freitext"></div>
-      <div class="buttons">
-        <button onclick="addField('kleidung-freitext')">+ Freitext</button>
-      </div>
-    </div>
-
-    <!-- SONSTIGES -->
-    <div class="section" data-section="Sonstiges">
-      <h2>Sonstiges</h2>
-      <div class="checkbox-group">
-        <label><input type="checkbox"> Reisepass / Personalausweis</label>
-        <label><input type="checkbox"> Führerschein</label>
-        <label><input type="checkbox"> Geld</label>
-        <label><input type="checkbox"> Reiseunterlagen</label>
-        <label><input type="checkbox"> Brille</label>
-        <label><input type="checkbox"> Handy</label>
-        <label><input type="checkbox"> Reiseführer</label>
-        <label><input type="checkbox"> Sonnenbrille</label>
-        <label><input type="checkbox"> Kamera</label>
-        <label><input type="checkbox"> Ladegeräte (Handy, Tablet)</label>
-        <label><input type="checkbox"> Tablet</label>
-        <label><input type="checkbox"> Kindle</label>
-        <label><input type="checkbox"> Handtuch</label>
-        <label><input type="checkbox"> Strandtuch</label>
-        <label><input type="checkbox"> Strandtasche</label>
-        <label><input type="checkbox"> Rucksack</label>
-      </div>
-      <div class="freitext-container" id="sonstiges-freitext"></div>
-      <div class="buttons">
-        <button onclick="addField('sonstiges-freitext')">+ Freitext</button>
-      </div>
-    </div>
-
+  <!-- KOFFER-AUSWAHL -->
+  <div id="start-screen">
+    <h1>🧳 Wähle deinen Koffer</h1>
+    <div id="profile-list"></div>
+    <button id="add-profile-btn" onclick="addProfile()">➕ Neuer Koffer</button>
   </div>
 
-  <button onclick="generatePDF()">📤 Als PDF speichern</button>
-  <button onclick="saveStateManually()">💾 Speichern</button>
+  <!-- CHECKLISTE -->
+  <div id="checklist-screen">
+    <div id="checklist-header">
+      <h1 id="checklist-title">🧳 Checkliste</h1>
+      <button id="back-btn" onclick="goToStart()">← Zurück</button>
+    </div>
+
+    <div id="checklist">
+
+      <!-- KOSMETIK -->
+      <div class="section" data-section="Kosmetik">
+        <h2>Kosmetik</h2>
+        <div class="checkbox-group">
+          <label><input type="checkbox"> Zahnbürste</label>
+          <label><input type="checkbox"> Zahnpasta</label>
+          <label><input type="checkbox"> Parfüm</label>
+          <label><input type="checkbox"> Haarshampoo</label>
+          <label><input type="checkbox"> Deo</label>
+          <label><input type="checkbox"> Haarschaum</label>
+          <label><input type="checkbox"> Duschgel</label>
+          <label><input type="checkbox"> Fön</label>
+          <label><input type="checkbox"> Haarspray</label>
+          <label><input type="checkbox"> Taschentücher</label>
+          <label><input type="checkbox"> Ohrenstäbchen</label>
+          <label><input type="checkbox"> Bürste</label>
+          <label><input type="checkbox"> Sonnenmilch</label>
+          <label><input type="checkbox"> Gesichtscreme</label>
+          <label><input type="checkbox"> After-Sun</label>
+          <label><input type="checkbox"> Bodylotion</label>
+          <label><input type="checkbox"> Rasierer</label>
+          <label><input type="checkbox"> Aftershave Lotion</label>
+        </div>
+        <div class="freitext-container" id="kosmetik-freitext"></div>
+        <div class="buttons">
+          <button onclick="addField('kosmetik-freitext')">+ Freitext</button>
+        </div>
+      </div>
+
+      <!-- REISEAPOTHEKE -->
+      <div class="section" data-section="Reiseapotheke">
+        <h2>Reiseapotheke</h2>
+        <div class="checkbox-group">
+          <label><input type="checkbox"> Desinfektionsmittel</label>
+          <label><input type="checkbox"> Schere</label>
+          <label><input type="checkbox"> Magnesium</label>
+          <label><input type="checkbox"> Durchfalltabletten</label>
+          <label><input type="checkbox"> Wundsalbe</label>
+          <label><input type="checkbox"> Diclofenac</label>
+          <label><input type="checkbox"> Pinzette</label>
+          <label><input type="checkbox"> Kortisonsalbe</label>
+          <label><input type="checkbox"> Kopfschmerztabletten</label>
+          <label><input type="checkbox"> Pflaster</label>
+          <label><input type="checkbox"> Bullrich Salz</label>
+          <label><input type="checkbox"> Pantoprazol</label>
+        </div>
+        <div class="freitext-container" id="apotheke-freitext"></div>
+        <div class="buttons">
+          <button onclick="addField('apotheke-freitext')">+ Freitext</button>
+        </div>
+      </div>
+
+      <!-- KLEIDUNG -->
+      <div class="section" data-section="Kleidung">
+        <h2>Kleidung</h2>
+        <div class="checkbox-group">
+          <label><input type="checkbox"> Slips</label>
+          <label><input type="checkbox"> Badehose</label>
+          <label><input type="checkbox"> Einlagen</label>
+          <label><input type="checkbox"> Socken</label>
+          <label><input type="checkbox"> Cappy</label>
+          <label><input type="checkbox"> Schlafsachen</label>
+          <label><input type="checkbox"> Sandalen</label>
+          <label><input type="checkbox"> 1 lange Hose</label>
+          <label><input type="checkbox"> T-Shirts</label>
+          <label><input type="checkbox"> Hoodie</label>
+          <label><input type="checkbox"> Flip-Flops</label>
+          <label><input type="checkbox"> Shorts</label>
+          <label><input type="checkbox"> Schuhe</label>
+        </div>
+        <div class="freitext-container" id="kleidung-freitext"></div>
+        <div class="buttons">
+          <button onclick="addField('kleidung-freitext')">+ Freitext</button>
+        </div>
+      </div>
+
+      <!-- SONSTIGES -->
+      <div class="section" data-section="Sonstiges">
+        <h2>Sonstiges</h2>
+        <div class="checkbox-group">
+          <label><input type="checkbox"> Reisepass / Personalausweis</label>
+          <label><input type="checkbox"> Führerschein</label>
+          <label><input type="checkbox"> Geld</label>
+          <label><input type="checkbox"> Reiseunterlagen</label>
+          <label><input type="checkbox"> Brille</label>
+          <label><input type="checkbox"> Handy</label>
+          <label><input type="checkbox"> Reiseführer</label>
+          <label><input type="checkbox"> Sonnenbrille</label>
+          <label><input type="checkbox"> Kamera</label>
+          <label><input type="checkbox"> Ladegeräte (Handy, Tablet)</label>
+          <label><input type="checkbox"> Tablet</label>
+          <label><input type="checkbox"> Kindle</label>
+          <label><input type="checkbox"> Handtuch</label>
+          <label><input type="checkbox"> Strandtuch</label>
+          <label><input type="checkbox"> Strandtasche</label>
+          <label><input type="checkbox"> Rucksack</label>
+        </div>
+        <div class="freitext-container" id="sonstiges-freitext"></div>
+        <div class="buttons">
+          <button onclick="addField('sonstiges-freitext')">+ Freitext</button>
+        </div>
+      </div>
+
+    </div>
+
+    <button onclick="generatePDF()">📤 Als PDF speichern</button>
+    <button onclick="saveStateManually()">💾 Speichern</button>
+  </div>
 
   <script>
+    const PROFILES_KEY = "koffer_profiles";
+    let currentProfileId = null;
+
+    function defaultProfiles() {
+      return [
+        { id: "p1", name: "Koffer 1" },
+        { id: "p2", name: "Koffer 2" },
+        { id: "p3", name: "Koffer 3" }
+      ];
+    }
+
+    function getProfiles() {
+      const raw = localStorage.getItem(PROFILES_KEY);
+      if (!raw) {
+        const initial = defaultProfiles();
+        localStorage.setItem(PROFILES_KEY, JSON.stringify(initial));
+        return initial;
+      }
+      return JSON.parse(raw);
+    }
+
+    function saveProfiles(profiles) {
+      localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
+    }
+
+    function renderProfiles() {
+      const profiles = getProfiles();
+      const list = document.getElementById("profile-list");
+      list.innerHTML = "";
+      profiles.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "profile-card";
+
+        const nameSpan = document.createElement("div");
+        nameSpan.className = "profile-name";
+        nameSpan.textContent = "🧳 " + p.name;
+        nameSpan.onclick = () => openProfile(p.id);
+
+        const actions = document.createElement("div");
+        actions.className = "profile-actions";
+
+        const renameBtn = document.createElement("button");
+        renameBtn.textContent = "✏️";
+        renameBtn.onclick = (e) => { e.stopPropagation(); renameProfile(p.id); };
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "🗑️";
+        deleteBtn.onclick = (e) => { e.stopPropagation(); deleteProfile(p.id); };
+
+        actions.appendChild(renameBtn);
+        actions.appendChild(deleteBtn);
+
+        card.appendChild(nameSpan);
+        card.appendChild(actions);
+        list.appendChild(card);
+      });
+    }
+
+    function addProfile() {
+      const name = prompt("Name für den neuen Koffer:", "Neuer Koffer");
+      if (!name) return;
+      const profiles = getProfiles();
+      const id = "p" + Date.now();
+      profiles.push({ id, name });
+      saveProfiles(profiles);
+      renderProfiles();
+    }
+
+    function renameProfile(id) {
+      const profiles = getProfiles();
+      const profile = profiles.find(p => p.id === id);
+      if (!profile) return;
+      const newName = prompt("Neuer Name:", profile.name);
+      if (!newName) return;
+      profile.name = newName;
+      saveProfiles(profiles);
+      renderProfiles();
+      if (currentProfileId === id) {
+        document.getElementById("checklist-title").textContent = "🧳 " + newName;
+      }
+    }
+
+    function deleteProfile(id) {
+      const profiles = getProfiles();
+      const profile = profiles.find(p => p.id === id);
+      if (!profile) return;
+      if (!confirm(`"${profile.name}" wirklich löschen? Alle Häkchen dafür gehen verloren.`)) return;
+      saveProfiles(profiles.filter(p => p.id !== id));
+      localStorage.removeItem("checklist_" + id);
+      renderProfiles();
+    }
+
+    function openProfile(id) {
+      const profiles = getProfiles();
+      const profile = profiles.find(p => p.id === id);
+      if (!profile) return;
+      currentProfileId = id;
+      resetForm();
+      loadState();
+      document.getElementById("checklist-title").textContent = "🧳 " + profile.name;
+      document.getElementById("start-screen").style.display = "none";
+      document.getElementById("checklist-screen").style.display = "block";
+    }
+
+    function goToStart() {
+      saveState();
+      currentProfileId = null;
+      document.getElementById("checklist-screen").style.display = "none";
+      document.getElementById("start-screen").style.display = "block";
+      renderProfiles();
+    }
+
+    function resetForm() {
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      document.querySelectorAll('.freitext-container').forEach(container => {
+        container.innerHTML = "";
+      });
+    }
+
     function addField(containerId) {
       const container = document.getElementById(containerId);
       const wrapper = document.createElement("div");
@@ -205,9 +395,12 @@
 
     function generatePDF() {
       const element = document.getElementById("checklist");
+      const profiles = getProfiles();
+      const profile = profiles.find(p => p.id === currentProfileId);
+      const filename = (profile ? profile.name : "Checkliste") + ".pdf";
       html2pdf().set({
         margin: 0.5,
-        filename: 'Urlaubscheckliste.pdf',
+        filename: filename,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, scrollY: 0 },
         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
@@ -216,22 +409,24 @@
     }
 
     function saveStateManually() {
-      alert("Daten gespeichert.");
       saveState();
+      alert("Daten gespeichert.");
     }
 
     function saveState() {
+      if (!currentProfileId) return;
       const state = {
         checkboxes: [...document.querySelectorAll('input[type="checkbox"]')].map(cb => cb.checked),
         freitexte: [...document.querySelectorAll('.freitext-container')].map(container =>
           [...container.querySelectorAll('input[type="text"]')].map(input => input.value)
         )
       };
-      localStorage.setItem("checklist", JSON.stringify(state));
+      localStorage.setItem("checklist_" + currentProfileId, JSON.stringify(state));
     }
 
     function loadState() {
-      const state = JSON.parse(localStorage.getItem("checklist"));
+      if (!currentProfileId) return;
+      const state = JSON.parse(localStorage.getItem("checklist_" + currentProfileId));
       if (!state) return;
       document.querySelectorAll('input[type="checkbox"]').forEach((cb, i) => cb.checked = state.checkboxes[i]);
       const containers = document.querySelectorAll('.freitext-container');
@@ -256,7 +451,7 @@
       });
     }
 
-    window.onload = loadState;
+    window.onload = renderProfiles;
 
     // Service Worker registrieren (macht die App offline-fähig & installierbar)
     if ("serviceWorker" in navigator) {
