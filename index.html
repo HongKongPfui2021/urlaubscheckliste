@@ -305,8 +305,47 @@
     // ---------- Checklisten-Daten pro Koffer ----------
     function getChecklistData(profileId) {
       const raw = localStorage.getItem("checklist_data_" + profileId);
-      if (!raw) return { sections: [] };
-      return JSON.parse(raw);
+      if (raw) return JSON.parse(raw);
+
+      // Migration: gibt es noch Daten im alten Format (feste Checkbox-Liste)?
+      const oldRaw = localStorage.getItem("checklist_" + profileId);
+      if (oldRaw) {
+        const migrated = migrateOldState(JSON.parse(oldRaw));
+        saveChecklistData(profileId, migrated);
+        return migrated;
+      }
+
+      return { sections: [] };
+    }
+
+    // Wandelt die alte Struktur {checkboxes:[...], freitexte:[[...]]} in das
+    // neue Kategorien/Punkte-Modell um, damit alte Häkchen nicht verloren gehen.
+    function migrateOldState(oldState) {
+      const oldTemplate = [
+        { title: "Kosmetik", names: ["Zahnbürste","Zahnpasta","Parfüm","Haarshampoo","Deo","Haarschaum","Duschgel","Fön","Haarspray","Taschentücher","Ohrenstäbchen","Bürste","Sonnenmilch","Gesichtscreme","After-Sun","Bodylotion","Rasierer","Aftershave Lotion"] },
+        { title: "Reiseapotheke", names: ["Desinfektionsmittel","Schere","Magnesium","Durchfalltabletten","Wundsalbe","Diclofenac","Pinzette","Kortisonsalbe","Kopfschmerztabletten","Pflaster","Bullrich Salz","Pantoprazol"] },
+        { title: "Kleidung", names: ["Slips","Badehose","Einlagen","Socken","Cappy","Schlafsachen","Sandalen","1 lange Hose","T-Shirts","Hoodie","Flip-Flops","Shorts","Schuhe"] },
+        { title: "Sonstiges", names: ["Reisepass / Personalausweis","Führerschein","Geld","Reiseunterlagen","Brille","Handy","Reiseführer","Sonnenbrille","Kamera","Ladegeräte (Handy, Tablet)","Tablet","Kindle","Handtuch","Strandtuch","Strandtasche","Rucksack"] }
+      ];
+
+      const sections = [];
+      let cbIndex = 0;
+      oldTemplate.forEach((sec, secIdx) => {
+        const items = sec.names.map(name => {
+          const checked = !!(oldState.checkboxes && oldState.checkboxes[cbIndex]);
+          cbIndex++;
+          return { id: uid("item"), name, checked };
+        });
+        const freitextList = (oldState.freitexte && oldState.freitexte[secIdx]) || [];
+        freitextList.forEach(text => {
+          if (text && text.trim()) {
+            items.push({ id: uid("item"), name: text, checked: false });
+          }
+        });
+        sections.push({ id: uid("sec"), title: sec.title, items });
+      });
+
+      return { sections };
     }
 
     function saveChecklistData(profileId, data) {
